@@ -2,7 +2,7 @@
  * Document list component.
  * Main component that displays a grid of document cards with filtering and pagination.
  */
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import DocumentCard from './DocumentCard';
 import FilterBar from './FilterBar';
 import SearchBar from './SearchBar';
@@ -31,13 +31,13 @@ const DocumentList = () => {
     totalPages,
   } = useDocuments();
 
-  const handleSearch = (searchTerm) => {
+  const handleSearch = useCallback((searchTerm) => {
     updateFilters({ search: searchTerm || undefined });
-  };
+  }, [updateFilters]);
 
-  const handleFilterChange = (newFilters) => {
+  const handleFilterChange = useCallback((newFilters) => {
     updateFilters(newFilters);
-  };
+  }, [updateFilters]);
 
   const handleDocumentClick = (document) => {
     // Open the SEC document URL in a new tab

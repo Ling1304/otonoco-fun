@@ -46,46 +46,46 @@ export const useDocuments = (initialFilters = {}) => {
     fetchDocuments();
   }, [filters]);
 
-  const updateFilters = (newFilters) => {
+  const updateFilters = useCallback((newFilters) => {
     setFilters((prev) => ({
       ...prev,
       ...newFilters,
       skip: 0, // Reset to first page when filters change
     }));
-  };
+  }, []);
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setFilters({
       skip: 0,
       limit: 20,
     });
-  };
+  }, []);
 
   const refetch = useCallback(() => {
     // Force refetch by updating filters reference
     setFilters((prev) => ({ ...prev }));
   }, []);
 
-  const nextPage = () => {
+  const nextPage = useCallback(() => {
     setFilters((prev) => ({
       ...prev,
       skip: prev.skip + prev.limit,
     }));
-  };
+  }, []);
 
-  const prevPage = () => {
+  const prevPage = useCallback(() => {
     setFilters((prev) => ({
       ...prev,
       skip: Math.max(0, prev.skip - prev.limit),
     }));
-  };
+  }, []);
 
-  const goToPage = (page) => {
+  const goToPage = useCallback((page) => {
     setFilters((prev) => ({
       ...prev,
       skip: page * prev.limit,
     }));
-  };
+  }, []);
 
   const currentPage = Math.floor(filters.skip / filters.limit);
   const totalPages = Math.ceil(total / filters.limit);
